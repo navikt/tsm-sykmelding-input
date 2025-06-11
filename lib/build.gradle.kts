@@ -32,11 +32,11 @@ tasks.withType<Jar>().configureEach {
 val generateVersionFile =
     tasks.register("generateVersionFile") {
         val version = file("version").readText().trim()
-        val outputDir = layout.buildDirectory.dir("generated/regula")
+        val outputDir = layout.buildDirectory.dir("generated/sykmelding/producer")
         outputs.dir(outputDir)
 
         doLast {
-            val file = outputDir.get().file("RegulaVersion.kt").asFile
+            val file = outputDir.get().file("SykmeldingProducerVersion.kt").asFile
             file.parentFile.mkdirs()
             file.writeText(
                 """
@@ -66,7 +66,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/navikt/regulus-regula")
+            url = uri("https://maven.pkg.github.com/navikt/tsm-sykmelding-producer")
             credentials {
                 username = "x-access-token"
                 password = System.getenv("GITHUB_TOKEN")
@@ -80,3 +80,4 @@ spotless { kotlin { ktfmt("0.54").kotlinlangStyle() } }
 tasks.named<Test>("test") { useJUnitPlatform() }
 
 tasks.named("sourcesJar") { dependsOn("generateVersionFile") }
+1
