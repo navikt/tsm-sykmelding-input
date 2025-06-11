@@ -1,6 +1,6 @@
-package no.nav.tsm.sykmelding.producer
+package no.nav.tsm.sykmelding.input.producer
 
-import no.nav.tsm.sykmelding.producer.metrics.SykmeldingProducerVersion
+import no.nav.tsm.sykmelding.input.metrics.SykmeldingProducerVersion
 
 class Library {
     fun someLibraryMethod(): Boolean {

@@ -1,4 +1,4 @@
-package no.nav.tsm.sykmelding.producer
+package no.nav.tsm.sykmelding.input.producer
 
 import kotlin.test.Test
 import kotlin.test.assertTrue

@@ -32,7 +32,7 @@ tasks.withType<Jar>().configureEach {
 val generateVersionFile =
     tasks.register("generateVersionFile") {
         val version = file("version").readText().trim()
-        val outputDir = layout.buildDirectory.dir("generated/sykmelding/producer")
+        val outputDir = layout.buildDirectory.dir("generated/sykmelding/input")
         outputs.dir(outputDir)
 
         doLast {
@@ -40,7 +40,7 @@ val generateVersionFile =
             file.parentFile.mkdirs()
             file.writeText(
                 """
-            package no.nav.tsm.sykmelding.producer.metrics
+            package no.nav.tsm.sykmelding.input.metrics
 
             internal object SykmeldingProducerVersion {
                 const val VERSION = "$version"
@@ -59,14 +59,14 @@ publishing {
         create<MavenPublication>("gpr") {
             from(components["java"])
             groupId = "no.nav.tsm.sykmelding"
-            artifactId = "producer"
+            artifactId = "input"
             version = file("version").readText().trim()
         }
     }
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/navikt/tsm-sykmelding-producer")
+            url = uri("https://maven.pkg.github.com/navikt/tsm-sykmelding-input")
             credentials {
                 username = "x-access-token"
                 password = System.getenv("GITHUB_TOKEN")
