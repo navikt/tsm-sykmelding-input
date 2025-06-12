@@ -17,6 +17,9 @@ dependencies {
 
     api(libs.slf4j)
     api(libs.prometheus)
+    api(libs.jackson.module.kotlin)
+    api(libs.jackson.datatype.jsr310)
+    api(libs.kafka.clients)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -80,4 +83,3 @@ spotless { kotlin { ktfmt("0.54").kotlinlangStyle() } }
 tasks.named<Test>("test") { useJUnitPlatform() }
 
 tasks.named("sourcesJar") { dependsOn("generateVersionFile") }
-1

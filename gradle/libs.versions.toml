@@ -5,11 +5,15 @@
 junit-jupiter-engine = "5.11.3"
 slf4j = "1.7.25"
 prometheus = "0.16.0"
-
+jackson-version = "2.18.3"
+kafka-clients-version = "4.0.0"
 [libraries]
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 prometheus = { module = "io.prometheus:simpleclient", version.ref = "prometheus" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter-engine" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson-version"}
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson-version"}
+kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka-clients-version" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.1.0" }
