@@ -16,10 +16,7 @@ interface SykmeldingInputProducer {
     fun tombstoneSykmelding(sykmeldingId: String)
 }
 
-internal class SykmeldingInputKafkaProducer(
-    private val kafkaProducer: KafkaProducer<String, SykmeldingRecord>
-) : SykmeldingInputProducer {
-
+class SykmeldingInputKafkaInputFactory private constructor() {
     companion object {
         private val log = LoggerFactory.getLogger(SykmeldingInputKafkaProducer::class.java)
         private const val TOPIC = "tsm.sykmeldinger-input"
@@ -50,15 +47,21 @@ internal class SykmeldingInputKafkaProducer(
                         SykmeldingRecordSerializer::class.java
                     this[ProducerConfig.COMPRESSION_TYPE_CONFIG] = "gzip"
                 }
-            return SykmeldingInputKafkaProducer(KafkaProducer(properties))
+            return SykmeldingInputKafkaProducer(KafkaProducer(properties), TOPIC)
         }
     }
+}
+
+internal class SykmeldingInputKafkaProducer(
+    private val kafkaProducer: KafkaProducer<String, SykmeldingRecord>,
+    private val topic: String,
+) : SykmeldingInputProducer {
 
     override fun sendSykmelding(sykmelding: SykmeldingRecord) {
-        kafkaProducer.send(ProducerRecord(TOPIC, sykmelding.sykmelding.id, sykmelding)).get()
+        kafkaProducer.send(ProducerRecord(topic, sykmelding.sykmelding.id, sykmelding)).get()
     }
 
     override fun tombstoneSykmelding(sykmeldingId: String) {
-        kafkaProducer.send(ProducerRecord(TOPIC, sykmeldingId, null))
+        kafkaProducer.send(ProducerRecord(topic, sykmeldingId, null))
     }
 }
