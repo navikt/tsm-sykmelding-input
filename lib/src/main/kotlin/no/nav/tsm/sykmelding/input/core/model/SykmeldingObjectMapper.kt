@@ -9,6 +9,6 @@ val sykmeldingObjectMapper =
     jacksonObjectMapper().apply {
         registerModule(SykmeldingModule())
         registerModule(JavaTimeModule())
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
         configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
     }
