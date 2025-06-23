@@ -60,7 +60,35 @@ enum class HelsepersonellKategori {
     FOTTERAPEUT,
     TANNHELSESEKRETAR,
     UGYLDIG,
-    IKKE_OPPGITT,
+    IKKE_OPPGITT;
+
+    companion object {
+        fun parse(v: String?): HelsepersonellKategori {
+            return when (v) {
+                "HE" -> HELSESEKRETAR
+                "KI" -> KIROPRAKTOR
+                "LE" -> LEGE
+                "MT" -> MANUELLTERAPEUT
+                "TL" -> TANNLEGE
+                "TH" -> TANNHELSESEKRETAR
+                "FT" -> FYSIOTERAPEUT
+                "SP" -> SYKEPLEIER
+                "HP" -> HJELPEPLEIER
+                "HF" -> HELSEFAGARBEIDER
+                "JO" -> JORDMOR
+                "AU" -> AUDIOGRAF
+                "NP" -> NAPRAPAT
+                "PS" -> PSYKOLOG
+                "FO" -> FOTTERAPEUT
+                "AA" -> AMBULANSEARBEIDER
+                "XX" -> USPESIFISERT
+                "HS" -> UGYLDIG
+                "token" -> UGYLDIG
+                null -> IKKE_OPPGITT
+                else -> throw IllegalArgumentException("Ukjent helsepersonellkategori: $v")
+            }
+        }
+    }
 }
 
 enum class RolleTilPasient {
