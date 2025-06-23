@@ -69,6 +69,7 @@ data class DigitalSykmelding(
     val sykmelder: Sykmelder,
     val arbeidsgiver: ArbeidsgiverInfo?,
     val tilbakedatering: Tilbakedatering?,
+    val bistandNav: BistandNav?,
 ) : Sykmelding {
     override val type = SykmeldingType.DIGITAL
 }
