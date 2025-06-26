@@ -67,7 +67,7 @@ data class DigitalSykmelding(
     override val aktivitet: List<Aktivitet>,
     val behandler: Behandler,
     val sykmelder: Sykmelder,
-    val arbeidsgiver: ArbeidsgiverInfo?,
+    val arbeidsgiver: ArbeidsgiverInfo,
     val tilbakedatering: Tilbakedatering?,
     val bistandNav: BistandNav?,
 ) : Sykmelding {
