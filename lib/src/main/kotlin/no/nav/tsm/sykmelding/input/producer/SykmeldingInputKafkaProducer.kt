@@ -47,7 +47,12 @@ class SykmeldingInputKafkaInputFactory private constructor() {
                         SykmeldingRecordSerializer::class.java
                     this[ProducerConfig.COMPRESSION_TYPE_CONFIG] = "gzip"
                 }
-            return SykmeldingInputKafkaProducer(KafkaProducer(properties), TOPIC)
+            return SykmeldingInputKafkaProducer(
+                KafkaProducer(properties),
+                TOPIC,
+                kafkaEnvironment.sourceApp,
+                kafkaEnvironment.sourceNamespace,
+            )
         }
     }
 }
@@ -55,13 +60,26 @@ class SykmeldingInputKafkaInputFactory private constructor() {
 internal class SykmeldingInputKafkaProducer(
     private val kafkaProducer: KafkaProducer<String, SykmeldingRecord>,
     private val topic: String,
+    private val sourceApp: String,
+    private val sourceNamespace: String,
 ) : SykmeldingInputProducer {
+    companion object {
+        private const val SOURCE_APP = "source_app"
+        private const val SOURCE_NAMESPACE = "source_namespace"
+    }
 
     override fun sendSykmelding(sykmelding: SykmeldingRecord) {
-        kafkaProducer.send(ProducerRecord(topic, sykmelding.sykmelding.id, sykmelding)).get()
+        val producerRecord = ProducerRecord(topic, sykmelding.sykmelding.id, sykmelding)
+        producerRecord.headers().add(SOURCE_APP, sourceApp.toByteArray())
+        producerRecord.headers().add(SOURCE_NAMESPACE, sourceNamespace.toByteArray())
+        kafkaProducer.send(producerRecord).get()
     }
 
     override fun tombstoneSykmelding(sykmeldingId: String) {
-        kafkaProducer.send(ProducerRecord(topic, sykmeldingId, null))
+        val producerRecord: ProducerRecord<String, SykmeldingRecord> =
+            ProducerRecord(topic, sykmeldingId, null)
+        producerRecord.headers().add(SOURCE_APP, sourceApp.toByteArray())
+        producerRecord.headers().add(SOURCE_NAMESPACE, sourceNamespace.toByteArray())
+        kafkaProducer.send(producerRecord)
     }
 }
