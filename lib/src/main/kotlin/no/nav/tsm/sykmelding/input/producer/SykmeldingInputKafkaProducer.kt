@@ -11,9 +11,23 @@ import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.LoggerFactory
 
 interface SykmeldingInputProducer {
-    fun sendSykmelding(sykmelding: SykmeldingRecord)
+    fun sendSykmelding(sykmeldingRecord: SykmeldingRecord)
+
+    fun sendSykmelding(
+        sykmeldingRecord: SykmeldingRecord,
+        sourceApp: String,
+        sourceNamespace: String,
+        additionalHeaders: Map<String, String> = emptyMap(),
+    )
 
     fun tombstoneSykmelding(sykmeldingId: String)
+
+    fun tombstoneSykmelding(
+        sykmeldingId: String,
+        sourceApp: String,
+        sourceNamespace: String,
+        additionalHeaders: Map<String, String> = emptyMap(),
+    )
 }
 
 class SykmeldingInputKafkaInputFactory private constructor() {
@@ -68,18 +82,47 @@ internal class SykmeldingInputKafkaProducer(
         private const val SOURCE_NAMESPACE = "source_namespace"
     }
 
-    override fun sendSykmelding(sykmelding: SykmeldingRecord) {
-        val producerRecord = ProducerRecord(topic, sykmelding.sykmelding.id, sykmelding)
+    override fun sendSykmelding(sykmeldingRecord: SykmeldingRecord) {
+        sendSykmelding(
+            sykmeldingRecord = sykmeldingRecord,
+            sourceApp = sourceApp,
+            sourceNamespace = sourceNamespace,
+        )
+    }
+
+    override fun sendSykmelding(
+        sykmeldingRecord: SykmeldingRecord,
+        sourceApp: String,
+        sourceNamespace: String,
+        additionalHeaders: Map<String, String>,
+    ) {
+        val producerRecord: ProducerRecord<String, SykmeldingRecord> =
+            ProducerRecord(topic, sykmeldingRecord.sykmelding.id, sykmeldingRecord)
         producerRecord.headers().add(SOURCE_APP, sourceApp.toByteArray())
         producerRecord.headers().add(SOURCE_NAMESPACE, sourceNamespace.toByteArray())
+        additionalHeaders.forEach { producerRecord.headers().add(it.key, it.value.toByteArray()) }
         kafkaProducer.send(producerRecord).get()
     }
 
     override fun tombstoneSykmelding(sykmeldingId: String) {
+        tombstoneSykmelding(
+            sykmeldingId = sykmeldingId,
+            sourceApp = sourceApp,
+            sourceNamespace = sourceNamespace,
+        )
+    }
+
+    override fun tombstoneSykmelding(
+        sykmeldingId: String,
+        sourceApp: String,
+        sourceNamespace: String,
+        additionalHeaders: Map<String, String>,
+    ) {
         val producerRecord: ProducerRecord<String, SykmeldingRecord> =
             ProducerRecord(topic, sykmeldingId, null)
         producerRecord.headers().add(SOURCE_APP, sourceApp.toByteArray())
         producerRecord.headers().add(SOURCE_NAMESPACE, sourceNamespace.toByteArray())
-        kafkaProducer.send(producerRecord)
+        additionalHeaders.forEach { producerRecord.headers().add(it.key, it.value.toByteArray()) }
+        kafkaProducer.send(producerRecord).get()
     }
 }
