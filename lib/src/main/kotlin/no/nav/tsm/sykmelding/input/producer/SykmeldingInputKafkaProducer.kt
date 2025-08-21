@@ -35,10 +35,25 @@ class SykmeldingInputKafkaInputFactory private constructor() {
         private val log = LoggerFactory.getLogger(SykmeldingInputKafkaProducer::class.java)
         private const val TOPIC = "tsm.sykmeldinger-input"
 
-        fun create(): SykmeldingInputProducer {
+        fun localProducer(
+            appname: String,
+            namespace: String,
+            properties: Properties,
+        ): SykmeldingInputProducer {
+            val requiredProperties = getRequiredProperties()
+            properties.putAll(requiredProperties)
+            return SykmeldingInputKafkaProducer(
+                KafkaProducer(properties),
+                TOPIC,
+                appname,
+                namespace,
+            )
+        }
+
+        fun naisProducer(): SykmeldingInputProducer {
             val kafkaEnvironment = KafkaEnvironment()
             val properties =
-                Properties().apply {
+                getRequiredProperties().apply {
                     this[CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG] =
                         kafkaEnvironment.kafkaBrokers
                     this[CommonClientConfigs.SECURITY_PROTOCOL_CONFIG] = "SSL"
@@ -52,14 +67,8 @@ class SykmeldingInputKafkaInputFactory private constructor() {
                         kafkaEnvironment.kafkaKeystorePath
                     this[SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG] =
                         kafkaEnvironment.kafkaCredstorePassword
-                    this[ProducerConfig.ACKS_CONFIG] = "all"
-                    this[ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG] = "true"
                     this[ProducerConfig.CLIENT_ID_CONFIG] =
                         "${kafkaEnvironment.kafkaClientId}-producer"
-                    this[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
-                    this[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] =
-                        SykmeldingRecordSerializer::class.java
-                    this[ProducerConfig.COMPRESSION_TYPE_CONFIG] = "gzip"
                 }
             return SykmeldingInputKafkaProducer(
                 KafkaProducer(properties),
@@ -70,6 +79,15 @@ class SykmeldingInputKafkaInputFactory private constructor() {
         }
     }
 }
+
+private fun getRequiredProperties(): Properties =
+    Properties().apply {
+        this[ProducerConfig.ACKS_CONFIG] = "all"
+        this[ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG] = "true"
+        this[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+        this[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = SykmeldingRecordSerializer::class.java
+        this[ProducerConfig.COMPRESSION_TYPE_CONFIG] = "gzip"
+    }
 
 internal class SykmeldingInputKafkaProducer(
     private val kafkaProducer: KafkaProducer<String, SykmeldingRecord>,
