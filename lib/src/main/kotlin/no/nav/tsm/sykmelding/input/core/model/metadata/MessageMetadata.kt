@@ -1,6 +1,9 @@
 package no.nav.tsm.sykmelding.input.core.model.metadata
 
 import java.time.OffsetDateTime
+import org.slf4j.LoggerFactory
+
+private val log = LoggerFactory.getLogger(MessageMetadata::class.java)
 
 enum class MetadataType {
     DIGITAL,
@@ -87,6 +90,10 @@ enum class Meldingstype {
         fun parse(v: String): Meldingstype =
             when (v) {
                 "SYKMELD" -> SYKMELDING
+                "SYKMELD_EKHO" -> {
+                    log.warn("Sykmelding has incorrect type: $v, should be: SYKMELD")
+                    SYKMELDING
+                }
                 else -> throw IllegalArgumentException("Ukjent meldingstype: $v")
             }
     }
