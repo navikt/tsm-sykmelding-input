@@ -115,20 +115,22 @@ data class AvsenderSystem(val navn: String, val versjon: String)
 sealed interface SykmeldingMeta {
     val mottattDato: OffsetDateTime
     val genDate: OffsetDateTime
+    val avsenderSystem: AvsenderSystem
 }
 
 data class SykmeldingMetadata(
     override val mottattDato: OffsetDateTime,
     override val genDate: OffsetDateTime,
+    override val avsenderSystem: AvsenderSystem,
     val behandletTidspunkt: OffsetDateTime,
     val regelsettVersjon: String?,
-    val avsenderSystem: AvsenderSystem,
     val strekkode: String?,
 ) : SykmeldingMeta
 
 data class DigitalSykmeldingMetadata(
     override val mottattDato: OffsetDateTime,
     override val genDate: OffsetDateTime,
+    override val avsenderSystem: AvsenderSystem,
 ) : SykmeldingMeta
 
 data class BistandNav(val bistandUmiddelbart: Boolean, val beskrivBistand: String?)
