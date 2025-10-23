@@ -78,7 +78,7 @@ data class DigitalSykmelding(
 enum class UtdypendeSporsmal {
     HENSYN_PA_ARBEIDSPLASSEN,
     MEDISINSK_OPPSUMMERING,
-    UTFORDRINGER_MED_ARBEID
+    UTFORDRINGER_MED_ARBEID,
 }
 
 data class XmlSykmelding(
