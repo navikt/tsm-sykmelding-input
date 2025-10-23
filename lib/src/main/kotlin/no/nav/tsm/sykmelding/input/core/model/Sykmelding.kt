@@ -70,9 +70,15 @@ data class DigitalSykmelding(
     val arbeidsgiver: ArbeidsgiverInfo,
     val tilbakedatering: Tilbakedatering?,
     val bistandNav: BistandNav?,
-    val utdypendeOpplysninger: Map<String, Map<String, SporsmalSvar>>?,
+    val utdypendeSporsmal: Map<UtdypendeSporsmal, String>?,
 ) : Sykmelding {
     override val type = SykmeldingType.DIGITAL
+}
+
+enum class UtdypendeSporsmal {
+    HENSYN_PA_ARBEIDSPLASSEN,
+    MEDISINSK_OPPSUMMERING,
+    UTFORDRINGER_MED_ARBEID
 }
 
 data class XmlSykmelding(
