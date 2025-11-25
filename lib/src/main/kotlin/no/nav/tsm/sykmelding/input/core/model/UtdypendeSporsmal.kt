@@ -2,7 +2,7 @@ package no.nav.tsm.sykmelding.input.core.model
 
 enum class Sporsmalstype {
     UTFORDRINGER_MED_GRADERT_ARBEID,
-    MEDISINSK_OPPSUMERING,
+    MEDISINSK_OPPSUMMERING,
     HENSYN_PA_ARBEIDSPLASSEN,
 }
 
