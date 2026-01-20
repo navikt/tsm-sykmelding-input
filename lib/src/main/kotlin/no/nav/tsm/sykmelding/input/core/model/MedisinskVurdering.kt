@@ -37,17 +37,7 @@ enum class AnnenFravarArsakType {
     BEHANDLING_STERILISERING,
 }
 
-enum class AnnenFravarsgrunn {
-    GODKJENT_HELSEINSTITUSJON,
-    ARBEIDSRETTET_TILTAK,
-    MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND,
-    NODVENDIG_KONTROLLUNDENRSOKELSE,
-    SMITTEFARE,
-    ABORT,
-    UFOR_GRUNNET_BARNLOSHET,
-    DONOR,
-    BEHANDLING_STERILISERING,
-}
+typealias AnnenFravarsgrunn = AnnenFravarArsakType
 
 data class AnnenFraverArsak(val beskrivelse: String?, val arsak: List<AnnenFravarArsakType>?)
 
