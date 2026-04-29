@@ -10,5 +10,6 @@ echo $((VERSION + 1)) > lib/version
 git config user.name "github-actions[bot]"
 git config user.email "github-actions[bot]@users.noreply.github.com"
 git add lib/version
+git add "lib/src/test/resources/format/v$VERSION"
 git commit -m "chore: v$VERSION released! set next version to v$((VERSION + 1)) [skip ci]"
 git push origin HEAD

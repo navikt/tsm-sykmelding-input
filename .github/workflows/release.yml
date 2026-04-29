@@ -56,6 +56,9 @@ jobs:
       - name: Test and build lib
         run: ./gradlew build
 
+      - name: Generate json format
+        run: ./gradlew :lib:generateKafkaJsonFiles
+
       - name: Publish package
         if: github.ref == 'refs/heads/main' && needs.should_release.outputs.skip == 'false'
         run: |
