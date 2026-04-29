@@ -1,0 +1,65 @@
+{
+  "metadata" : {
+    "orgnummer" : "100000000",
+    "type" : "DIGITAL"
+  },
+  "sykmelding" : {
+    "id" : "84a936a4-60b5-4fc1-a606-8548c637ecfa",
+    "metadata" : {
+      "mottattDato" : "2024-01-15T10:00:00Z",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "avsenderSystem" : {
+        "navn" : "avsender-app",
+        "versjon" : "2.5"
+      }
+    },
+    "pasient" : {
+      "navn" : null,
+      "navKontor" : null,
+      "navnFastlege" : null,
+      "fnr" : "12345678901",
+      "kontaktinfo" : [ ]
+    },
+    "medisinskVurdering" : {
+      "hovedDiagnose" : null,
+      "biDiagnoser" : [ ],
+      "svangerskap" : false,
+      "yrkesskade" : null,
+      "skjermetForPasient" : false,
+      "annenFravarsgrunn" : null
+    },
+    "aktivitet" : [ {
+      "medisinskArsak" : null,
+      "arbeidsrelatertArsak" : null,
+      "fom" : "2024-01-15",
+      "tom" : "2024-01-29",
+      "type" : "AKTIVITET_IKKE_MULIG"
+    } ],
+    "behandler" : {
+      "navn" : {
+        "fornavn" : "fornavn",
+        "mellomnavn" : null,
+        "etternavn" : "etternavn"
+      },
+      "adresse" : null,
+      "ids" : [ ],
+      "kontaktinfo" : [ ]
+    },
+    "sykmelder" : {
+      "ids" : [ ],
+      "helsepersonellKategori" : "LEGE"
+    },
+    "arbeidsgiver" : {
+      "type" : "INGEN_ARBEIDSGIVER"
+    },
+    "tilbakedatering" : null,
+    "bistandNav" : null,
+    "utdypendeSporsmal" : null,
+    "type" : "DIGITAL"
+  },
+  "validation" : {
+    "status" : "OK",
+    "timestamp" : "2024-01-15T10:01:00Z",
+    "rules" : [ ]
+  }
+}

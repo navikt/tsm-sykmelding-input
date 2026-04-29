@@ -1,0 +1,245 @@
+{
+  "metadata" : {
+    "msgInfo" : {
+      "type" : "SYKMELDING",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "msgId" : "msg-id",
+      "migVersjon" : "v1"
+    },
+    "sender" : {
+      "navn" : "Sender Org",
+      "type" : "PRIVATE_SPESIALISTER_MED_DRIFTSAVTALER",
+      "ids" : [ {
+        "id" : "987654321",
+        "type" : "ENH"
+      } ],
+      "adresse" : {
+        "type" : "BESOKSADRESSE",
+        "gateadresse" : "Gata 2",
+        "postnummer" : "0002",
+        "poststed" : "Oslo",
+        "postboks" : null,
+        "kommune" : "Oslo",
+        "land" : "Norge"
+      },
+      "kontaktinfo" : [ {
+        "type" : "ARBEIDSPLASS_SENTRALBORD",
+        "value" : "+4744444444"
+      } ],
+      "underOrganisasjon" : null,
+      "helsepersonell" : null
+    },
+    "receiver" : {
+      "navn" : "Receiver Org",
+      "type" : "PRIVATE_SPESIALISTER_MED_DRIFTSAVTALER",
+      "ids" : [ {
+        "id" : "987654321",
+        "type" : "ENH"
+      } ],
+      "adresse" : {
+        "type" : "BESOKSADRESSE",
+        "gateadresse" : "Gata 2",
+        "postnummer" : "0002",
+        "poststed" : "Oslo",
+        "postboks" : null,
+        "kommune" : "Oslo",
+        "land" : "Norge"
+      },
+      "kontaktinfo" : [ {
+        "type" : "ARBEIDSPLASS_SENTRALBORD",
+        "value" : "+4744444444"
+      } ],
+      "underOrganisasjon" : null,
+      "helsepersonell" : null
+    },
+    "vedlegg" : [ "attached.pdf" ],
+    "type" : "ENKEL"
+  },
+  "sykmelding" : {
+    "id" : "6e30cc0e-abec-441f-98ee-92c0ae7ddc45",
+    "metadata" : {
+      "mottattDato" : "2024-01-15T10:00:00Z",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "avsenderSystem" : {
+        "navn" : "avsender-app",
+        "versjon" : "2.5"
+      },
+      "behandletTidspunkt" : "2024-01-15T09:30:00Z",
+      "regelsettVersjon" : "1234",
+      "strekkode" : "1234567890"
+    },
+    "pasient" : {
+      "navn" : {
+        "fornavn" : "Ola",
+        "mellomnavn" : "Mellom",
+        "etternavn" : "Nordmann"
+      },
+      "navKontor" : "NAV Oslo",
+      "navnFastlege" : "Dr. Hansen",
+      "fnr" : "12345678901",
+      "kontaktinfo" : [ {
+        "type" : "MOBILTELEFON",
+        "value" : "+4799999999"
+      }, {
+        "type" : "HOVEDTELEFON",
+        "value" : "+4722222222"
+      } ]
+    },
+    "medisinskVurdering" : {
+      "hovedDiagnose" : {
+        "system" : "ICPC2B",
+        "kode" : "R74.0001",
+        "tekst" : "diagnose"
+      },
+      "biDiagnoser" : [ {
+        "system" : "ICD10",
+        "kode" : "J06.9",
+        "tekst" : "URI"
+      }, {
+        "system" : "ICPC2",
+        "kode" : "L84",
+        "tekst" : "Rygglidelse"
+      } ],
+      "svangerskap" : false,
+      "yrkesskade" : {
+        "yrkesskadeDato" : "2023-08-01"
+      },
+      "skjermetForPasient" : false,
+      "syketilfelletStartDato" : "2024-01-10",
+      "annenFraversArsak" : {
+        "beskrivelse" : "Beskrivelse av fravær",
+        "arsak" : [ "MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND" ]
+      }
+    },
+    "aktivitet" : [ {
+      "medisinskArsak" : {
+        "beskrivelse" : "Tilstand hindrer arbeid",
+        "arsak" : [ "TILSTAND_HINDRER_AKTIVITET" ]
+      },
+      "arbeidsrelatertArsak" : {
+        "beskrivelse" : "Manglende tilrettelegging",
+        "arsak" : [ "MANGLENDE_TILRETTELEGGING" ]
+      },
+      "fom" : "2024-01-15",
+      "tom" : "2024-01-22",
+      "type" : "AKTIVITET_IKKE_MULIG"
+    }, {
+      "grad" : 50,
+      "fom" : "2024-01-23",
+      "tom" : "2024-01-29",
+      "reisetilskudd" : false,
+      "type" : "GRADERT"
+    }, {
+      "innspillTilArbeidsgiver" : "Snakk med leder",
+      "fom" : "2024-01-30",
+      "tom" : "2024-02-04",
+      "type" : "AVVENTENDE"
+    }, {
+      "antallBehandlingsdager" : 3,
+      "fom" : "2024-02-05",
+      "tom" : "2024-02-07",
+      "type" : "BEHANDLINGSDAGER"
+    }, {
+      "fom" : "2024-02-08",
+      "tom" : "2024-01-29",
+      "type" : "REISETILSKUDD"
+    } ],
+    "arbeidsgiver" : {
+      "navn" : "ACME AS",
+      "yrkesbetegnelse" : "Utvikler",
+      "stillingsprosent" : 100,
+      "meldingTilArbeidsgiver" : "Vennligst tilrettelegg",
+      "tiltakArbeidsplassen" : "Hev/senk-pult",
+      "type" : "EN_ARBEIDSGIVER"
+    },
+    "behandler" : {
+      "navn" : {
+        "fornavn" : "Lege",
+        "mellomnavn" : "Mellom",
+        "etternavn" : "Legesen"
+      },
+      "adresse" : {
+        "type" : "ARBEIDSADRESSE",
+        "gateadresse" : "Gata 1",
+        "postnummer" : "0001",
+        "poststed" : "Oslo",
+        "postboks" : "boxs",
+        "kommune" : "Oslo",
+        "land" : "Norge"
+      },
+      "ids" : [ {
+        "id" : "12345678901",
+        "type" : "FNR"
+      }, {
+        "id" : "987654",
+        "type" : "HPR"
+      } ],
+      "kontaktinfo" : [ {
+        "type" : "ARBEIDSPLASS",
+        "value" : "+4733333333"
+      } ]
+    },
+    "sykmelder" : {
+      "ids" : [ {
+        "id" : "12345678901",
+        "type" : "FNR"
+      }, {
+        "id" : "987654",
+        "type" : "HPR"
+      } ],
+      "helsepersonellKategori" : "LEGE"
+    },
+    "prognose" : {
+      "arbeidsforEtterPeriode" : true,
+      "hensynArbeidsplassen" : "hensyn",
+      "arbeid" : {
+        "egetArbeidPaSikt" : true,
+        "annetArbeidPaSikt" : false,
+        "arbeidFOM" : "2024-02-01",
+        "vurderingsdato" : "2024-01-20",
+        "type" : "ER_I_ARBEID"
+      }
+    },
+    "tiltak" : {
+      "tiltakNav" : "Tiltak Nav",
+      "andreTiltak" : "Andre tiltak"
+    },
+    "bistandNav" : {
+      "bistandUmiddelbart" : true,
+      "beskrivBistand" : "Trenger oppfølging"
+    },
+    "tilbakedatering" : {
+      "kontaktDato" : "2024-01-10",
+      "begrunnelse" : "Pasient kunne ikke møte tidligere"
+    },
+    "utdypendeOpplysninger" : {
+      "6.2" : {
+        "6.2.1" : {
+          "sporsmal" : "Hva er den medisinske årsaken?",
+          "svar" : "Beskrivelse",
+          "restriksjoner" : [ "SKJERMET_FOR_ARBEIDSGIVER" ]
+        }
+      }
+    },
+    "type" : "XML"
+  },
+  "validation" : {
+    "status" : "OK",
+    "timestamp" : "2024-01-15T10:01:00Z",
+    "rules" : [ {
+      "name" : "RULE_OK_1",
+      "timestamp" : "2024-01-15T10:01:00Z",
+      "validationType" : "AUTOMATIC",
+      "type" : "OK"
+    }, {
+      "name" : "RULE_PENDING_1",
+      "timestamp" : "2024-01-15T10:01:00Z",
+      "validationType" : "MANUAL",
+      "reason" : {
+        "sykmeldt" : "Avventer",
+        "sykmelder" : "Avventer behandler"
+      },
+      "type" : "PENDING"
+    } ]
+  }
+}
