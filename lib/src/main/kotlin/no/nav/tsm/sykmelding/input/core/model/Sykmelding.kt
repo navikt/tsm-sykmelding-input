@@ -9,11 +9,35 @@ import no.nav.tsm.sykmelding.input.core.model.metadata.MessageMetadata
 import no.nav.tsm.sykmelding.input.core.model.metadata.Navn
 import no.nav.tsm.sykmelding.input.core.model.metadata.PersonId
 
-data class SykmeldingRecord(
-    val metadata: MessageMetadata,
-    val sykmelding: Sykmelding,
-    val validation: ValidationResult,
-)
+sealed interface SykmeldingRecord {
+    val metadata: MessageMetadata
+    val sykmelding: Sykmelding
+    val validation: ValidationResult
+
+    data class Digital(
+        override val metadata: MessageMetadata.Digital,
+        override val sykmelding: Sykmelding.Digital,
+        override val validation: ValidationResult,
+    ) : SykmeldingRecord
+
+    data class Xml(
+        override val metadata: MessageMetadata.Xml,
+        override val sykmelding: Sykmelding.Xml,
+        override val validation: ValidationResult,
+    ) : SykmeldingRecord
+
+    data class Papir(
+        override val metadata: MessageMetadata.Papir,
+        override val sykmelding: Sykmelding.Papir,
+        override val validation: ValidationResult,
+    ) : SykmeldingRecord
+
+    data class Utenlandsk(
+        override val metadata: MessageMetadata.Utenlandsk,
+        override val sykmelding: Sykmelding.Utenlandsk,
+        override val validation: ValidationResult,
+    ) : SykmeldingRecord
+}
 
 data class Pasient(
     val navn: Navn?,
@@ -46,69 +70,83 @@ sealed interface Sykmelding {
     val pasient: Pasient
     val medisinskVurdering: MedisinskVurdering
     val aktivitet: List<Aktivitet>
-}
 
-data class UtenlandskSykmelding(
-    override val id: String,
-    override val metadata: SykmeldingMetadata,
-    override val pasient: Pasient,
-    override val medisinskVurdering: LegacyMedisinskVurdering,
-    override val aktivitet: List<Aktivitet>,
-    val utenlandskInfo: UtenlandskInfo,
-) : Sykmelding {
-    override val type = SykmeldingType.UTENLANDSK
-}
+    sealed interface Nasjonal : Sykmelding {
+        val behandler: Behandler
+        val sykmelder: Sykmelder
+        val arbeidsgiver: ArbeidsgiverInfo
+        val bistandNav: BistandNav?
+        val tilbakedatering: Tilbakedatering?
 
-data class DigitalSykmelding(
-    override val id: String,
-    override val metadata: DigitalSykmeldingMetadata,
-    override val pasient: Pasient,
-    override val medisinskVurdering: DigitalMedisinskVurdering,
-    override val aktivitet: List<Aktivitet>,
-    val behandler: Behandler,
-    val sykmelder: Sykmelder,
-    val arbeidsgiver: ArbeidsgiverInfo,
-    val tilbakedatering: Tilbakedatering?,
-    val bistandNav: BistandNav?,
-    val utdypendeSporsmal: List<UtdypendeSporsmal>?,
-) : Sykmelding {
-    override val type = SykmeldingType.DIGITAL
-}
+        sealed interface Legacy : Nasjonal {
+            val prognose: Prognose?
+            val tiltak: Tiltak?
+            val utdypendeOpplysninger: Map<String, Map<String, SporsmalSvar>>?
+        }
+    }
 
-data class XmlSykmelding(
-    override val id: String,
-    override val metadata: SykmeldingMetadata,
-    override val pasient: Pasient,
-    override val medisinskVurdering: LegacyMedisinskVurdering,
-    override val aktivitet: List<Aktivitet>,
-    val arbeidsgiver: ArbeidsgiverInfo,
-    val behandler: Behandler,
-    val sykmelder: Sykmelder,
-    val prognose: Prognose?,
-    val tiltak: Tiltak?,
-    val bistandNav: BistandNav?,
-    val tilbakedatering: Tilbakedatering?,
-    val utdypendeOpplysninger: Map<String, Map<String, SporsmalSvar>>?,
-) : Sykmelding {
-    override val type = SykmeldingType.XML
-}
+    data class Utenlandsk(
+        override val id: String,
+        override val metadata: SykmeldingMeta.Legacy,
+        override val pasient: Pasient,
+        override val medisinskVurdering: MedisinskVurdering.Legacy,
+        override val aktivitet: List<Aktivitet>,
+        val utenlandskInfo: UtenlandskInfo,
+    ) : Sykmelding {
+        override val type = SykmeldingType.UTENLANDSK
+    }
 
-data class Papirsykmelding(
-    override val id: String,
-    override val metadata: SykmeldingMetadata,
-    override val pasient: Pasient,
-    override val medisinskVurdering: LegacyMedisinskVurdering,
-    override val aktivitet: List<Aktivitet>,
-    val arbeidsgiver: ArbeidsgiverInfo,
-    val behandler: Behandler,
-    val sykmelder: Sykmelder,
-    val prognose: Prognose?,
-    val tiltak: Tiltak?,
-    val bistandNav: BistandNav?,
-    val tilbakedatering: Tilbakedatering?,
-    val utdypendeOpplysninger: Map<String, Map<String, SporsmalSvar>>?,
-) : Sykmelding {
-    override val type = SykmeldingType.PAPIR
+    data class Digital(
+        override val id: String,
+        override val metadata: SykmeldingMeta.Digital,
+        override val pasient: Pasient,
+        override val medisinskVurdering: MedisinskVurdering.Digital,
+        override val aktivitet: List<Aktivitet>,
+        override val behandler: Behandler,
+        override val sykmelder: Sykmelder,
+        override val arbeidsgiver: ArbeidsgiverInfo,
+        override val tilbakedatering: Tilbakedatering?,
+        override val bistandNav: BistandNav?,
+        val utdypendeSporsmal: List<UtdypendeSporsmal>?,
+    ) : Nasjonal {
+        override val type = SykmeldingType.DIGITAL
+    }
+
+    data class Xml(
+        override val id: String,
+        override val metadata: SykmeldingMeta.Legacy,
+        override val pasient: Pasient,
+        override val medisinskVurdering: MedisinskVurdering.Legacy,
+        override val aktivitet: List<Aktivitet>,
+        override val arbeidsgiver: ArbeidsgiverInfo,
+        override val behandler: Behandler,
+        override val sykmelder: Sykmelder,
+        override val prognose: Prognose?,
+        override val tiltak: Tiltak?,
+        override val bistandNav: BistandNav?,
+        override val tilbakedatering: Tilbakedatering?,
+        override val utdypendeOpplysninger: Map<String, Map<String, SporsmalSvar>>?,
+    ) : Nasjonal.Legacy {
+        override val type = SykmeldingType.XML
+    }
+
+    data class Papir(
+        override val id: String,
+        override val metadata: SykmeldingMeta.Legacy,
+        override val pasient: Pasient,
+        override val medisinskVurdering: MedisinskVurdering.Legacy,
+        override val aktivitet: List<Aktivitet>,
+        override val arbeidsgiver: ArbeidsgiverInfo,
+        override val behandler: Behandler,
+        override val sykmelder: Sykmelder,
+        override val prognose: Prognose?,
+        override val tiltak: Tiltak?,
+        override val bistandNav: BistandNav?,
+        override val tilbakedatering: Tilbakedatering?,
+        override val utdypendeOpplysninger: Map<String, Map<String, SporsmalSvar>>?,
+    ) : Nasjonal.Legacy {
+        override val type = SykmeldingType.PAPIR
+    }
 }
 
 data class AvsenderSystem(val navn: String, val versjon: String)
@@ -117,22 +155,22 @@ sealed interface SykmeldingMeta {
     val mottattDato: OffsetDateTime
     val genDate: OffsetDateTime
     val avsenderSystem: AvsenderSystem
+
+    data class Legacy(
+        override val mottattDato: OffsetDateTime,
+        override val genDate: OffsetDateTime,
+        override val avsenderSystem: AvsenderSystem,
+        val behandletTidspunkt: OffsetDateTime,
+        val regelsettVersjon: String?,
+        val strekkode: String?,
+    ) : SykmeldingMeta
+
+    data class Digital(
+        override val mottattDato: OffsetDateTime,
+        override val genDate: OffsetDateTime,
+        override val avsenderSystem: AvsenderSystem,
+    ) : SykmeldingMeta
 }
-
-data class SykmeldingMetadata(
-    override val mottattDato: OffsetDateTime,
-    override val genDate: OffsetDateTime,
-    override val avsenderSystem: AvsenderSystem,
-    val behandletTidspunkt: OffsetDateTime,
-    val regelsettVersjon: String?,
-    val strekkode: String?,
-) : SykmeldingMeta
-
-data class DigitalSykmeldingMetadata(
-    override val mottattDato: OffsetDateTime,
-    override val genDate: OffsetDateTime,
-    override val avsenderSystem: AvsenderSystem,
-) : SykmeldingMeta
 
 data class BistandNav(val bistandUmiddelbart: Boolean, val beskrivBistand: String?)
 

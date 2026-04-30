@@ -56,23 +56,23 @@ sealed interface MedisinskVurdering {
     val svangerskap: Boolean
     val yrkesskade: Yrkesskade?
     val skjermetForPasient: Boolean
+
+    data class Legacy(
+        override val hovedDiagnose: DiagnoseInfo?,
+        override val biDiagnoser: List<DiagnoseInfo>?,
+        override val svangerskap: Boolean,
+        override val yrkesskade: Yrkesskade?,
+        override val skjermetForPasient: Boolean,
+        val syketilfelletStartDato: LocalDate?,
+        val annenFraversArsak: AnnenFraverArsak?,
+    ) : MedisinskVurdering
+
+    data class Digital(
+        override val hovedDiagnose: DiagnoseInfo?,
+        override val biDiagnoser: List<DiagnoseInfo>?,
+        override val svangerskap: Boolean,
+        override val yrkesskade: Yrkesskade?,
+        override val skjermetForPasient: Boolean,
+        val annenFravarsgrunn: AnnenFravarsgrunn?,
+    ) : MedisinskVurdering
 }
-
-data class LegacyMedisinskVurdering(
-    override val hovedDiagnose: DiagnoseInfo?,
-    override val biDiagnoser: List<DiagnoseInfo>?,
-    override val svangerskap: Boolean,
-    override val yrkesskade: Yrkesskade?,
-    override val skjermetForPasient: Boolean,
-    val syketilfelletStartDato: LocalDate?,
-    val annenFraversArsak: AnnenFraverArsak?,
-) : MedisinskVurdering
-
-data class DigitalMedisinskVurdering(
-    override val hovedDiagnose: DiagnoseInfo?,
-    override val biDiagnoser: List<DiagnoseInfo>?,
-    override val svangerskap: Boolean,
-    override val yrkesskade: Yrkesskade?,
-    override val skjermetForPasient: Boolean,
-    val annenFravarsgrunn: AnnenFravarsgrunn?,
-) : MedisinskVurdering

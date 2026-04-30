@@ -16,36 +16,58 @@ enum class MetadataType {
 
 sealed interface MessageMetadata {
     val type: MetadataType
-}
 
-data class Egenmeldt(val msgInfo: MessageInfo) : MessageMetadata {
-    override val type: MetadataType = MetadataType.EGENMELDT
-}
+    data class Digital(val orgnummer: String) : MessageMetadata {
+        override val type: MetadataType = MetadataType.DIGITAL
+    }
 
-data class Digital(val orgnummer: String) : MessageMetadata {
-    override val type: MetadataType = MetadataType.DIGITAL
-}
+    data class Papir(
+        val msgInfo: MessageInfo,
+        val sender: Organisasjon,
+        val receiver: Organisasjon,
+        val journalPostId: String,
+    ) : MessageMetadata {
+        override val type = MetadataType.PAPIRSYKMELDING
+    }
 
-data class Papir(
-    val msgInfo: MessageInfo,
-    val sender: Organisasjon,
-    val receiver: Organisasjon,
-    val journalPostId: String,
-) : MessageMetadata {
-    override val type = MetadataType.PAPIRSYKMELDING
-}
+    data class Utenlandsk(val land: String, val journalPostId: String) : MessageMetadata {
+        override val type: MetadataType = MetadataType.UTENLANDSK_SYKMELDING
+    }
 
-data class Utenlandsk(val land: String, val journalPostId: String) : MessageMetadata {
-    override val type: MetadataType = MetadataType.UTENLANDSK_SYKMELDING
-}
+    sealed interface Xml : MessageMetadata {
 
-data class EmottakEnkel(
-    val msgInfo: MessageInfo,
-    val sender: Organisasjon,
-    val receiver: Organisasjon,
-    val vedlegg: List<String>?,
-) : MessageMetadata {
-    override val type = MetadataType.ENKEL
+        data class Egenmeldt(val msgInfo: MessageInfo) : Xml {
+            override val type: MetadataType = MetadataType.EGENMELDT
+        }
+
+        sealed interface Emottak : Xml {
+            val msgInfo: MessageInfo
+            val sender: Organisasjon
+            val receiver: Organisasjon
+            val vedlegg: List<String>?
+
+            data class EDI(
+                val mottakenhetBlokk: MottakenhetBlokk,
+                val ack: Ack,
+                override val msgInfo: MessageInfo,
+                override val sender: Organisasjon,
+                override val receiver: Organisasjon,
+                val pasient: Pasient?,
+                override val vedlegg: List<String>?,
+            ) : Emottak {
+                override val type = MetadataType.EMOTTAK
+            }
+
+            data class Legacy(
+                override val msgInfo: MessageInfo,
+                override val sender: Organisasjon,
+                override val receiver: Organisasjon,
+                override val vedlegg: List<String>?,
+            ) : Emottak {
+                override val type = MetadataType.ENKEL
+            }
+        }
+    }
 }
 
 enum class AckType {
@@ -70,18 +92,6 @@ enum class AckType {
 }
 
 data class Ack(val ackType: AckType)
-
-data class EDIEmottak(
-    val mottakenhetBlokk: MottakenhetBlokk,
-    val ack: Ack,
-    val msgInfo: MessageInfo,
-    val sender: Organisasjon,
-    val receiver: Organisasjon,
-    val pasient: Pasient?,
-    val vedlegg: List<String>?,
-) : MessageMetadata {
-    override val type = MetadataType.EMOTTAK
-}
 
 enum class Meldingstype {
     SYKMELDING;

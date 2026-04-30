@@ -34,30 +34,30 @@ sealed interface Rule {
     val name: String
     val validationType: ValidationType
     val timestamp: OffsetDateTime
-}
 
-data class InvalidRule(
-    override val name: String,
-    override val validationType: ValidationType,
-    override val timestamp: OffsetDateTime,
-    val reason: Reason,
-) : Rule {
-    override val type = RuleType.INVALID
-}
+    data class Invalid(
+        override val name: String,
+        override val validationType: ValidationType,
+        override val timestamp: OffsetDateTime,
+        val reason: Reason,
+    ) : Rule {
+        override val type = RuleType.INVALID
+    }
 
-data class PendingRule(
-    override val name: String,
-    override val timestamp: OffsetDateTime,
-    override val validationType: ValidationType,
-    val reason: Reason,
-) : Rule {
-    override val type = RuleType.PENDING
-}
+    data class Pending(
+        override val name: String,
+        override val timestamp: OffsetDateTime,
+        override val validationType: ValidationType,
+        val reason: Reason,
+    ) : Rule {
+        override val type = RuleType.PENDING
+    }
 
-data class OKRule(
-    override val name: String,
-    override val timestamp: OffsetDateTime,
-    override val validationType: ValidationType,
-) : Rule {
-    override val type = RuleType.OK
+    data class OK(
+        override val name: String,
+        override val timestamp: OffsetDateTime,
+        override val validationType: ValidationType,
+    ) : Rule {
+        override val type = RuleType.OK
+    }
 }

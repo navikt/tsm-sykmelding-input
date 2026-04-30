@@ -10,27 +10,22 @@ import no.nav.tsm.sykmelding.input.core.model.metadata.Ack
 import no.nav.tsm.sykmelding.input.core.model.metadata.AckType
 import no.nav.tsm.sykmelding.input.core.model.metadata.Adresse
 import no.nav.tsm.sykmelding.input.core.model.metadata.AdresseType
-import no.nav.tsm.sykmelding.input.core.model.metadata.Digital
-import no.nav.tsm.sykmelding.input.core.model.metadata.EDIEmottak
-import no.nav.tsm.sykmelding.input.core.model.metadata.Egenmeldt
-import no.nav.tsm.sykmelding.input.core.model.metadata.EmottakEnkel
 import no.nav.tsm.sykmelding.input.core.model.metadata.HelsepersonellKategori
 import no.nav.tsm.sykmelding.input.core.model.metadata.Kjonn
 import no.nav.tsm.sykmelding.input.core.model.metadata.Kontaktinfo
 import no.nav.tsm.sykmelding.input.core.model.metadata.KontaktinfoType
 import no.nav.tsm.sykmelding.input.core.model.metadata.Meldingstype
 import no.nav.tsm.sykmelding.input.core.model.metadata.MessageInfo
+import no.nav.tsm.sykmelding.input.core.model.metadata.MessageMetadata
 import no.nav.tsm.sykmelding.input.core.model.metadata.MottakenhetBlokk
 import no.nav.tsm.sykmelding.input.core.model.metadata.Navn
 import no.nav.tsm.sykmelding.input.core.model.metadata.OrgId
 import no.nav.tsm.sykmelding.input.core.model.metadata.OrgIdType
 import no.nav.tsm.sykmelding.input.core.model.metadata.Organisasjon
 import no.nav.tsm.sykmelding.input.core.model.metadata.OrganisasjonsType
-import no.nav.tsm.sykmelding.input.core.model.metadata.Papir
 import no.nav.tsm.sykmelding.input.core.model.metadata.Pasient as MetadataPasient
 import no.nav.tsm.sykmelding.input.core.model.metadata.PersonId
 import no.nav.tsm.sykmelding.input.core.model.metadata.PersonIdType
-import no.nav.tsm.sykmelding.input.core.model.metadata.Utenlandsk
 
 fun main() {
     val version =
@@ -75,20 +70,20 @@ private val fom = LocalDate.parse("2024-01-15")
 private val tom = LocalDate.parse("2024-01-29")
 
 private fun digitalFull() =
-    SykmeldingRecord(
-        metadata = Digital(orgnummer = "987654321"),
+    SykmeldingRecord.Digital(
+        metadata = MessageMetadata.Digital(orgnummer = "987654321"),
         validation = fullValidation(),
         sykmelding =
-            DigitalSykmelding(
+            Sykmelding.Digital(
                 id = UUID.randomUUID().toString(),
                 metadata = digitalSykmeldingMetadata(),
                 pasient = pasientFull(),
-                medisinskVurdering = medisinskVurdering(),
+                medisinskVurdering = medisinskVurderingDigital(),
                 aktivitet = aktivitetVariety(),
                 behandler = behandlerFull(),
                 sykmelder = sykmelderFull(),
                 arbeidsgiver =
-                    FlereArbeidsgivere(
+                    ArbeidsgiverInfo.Flere(
                         "navn",
                         "yrke",
                         20,
@@ -122,11 +117,11 @@ private fun digitalFull() =
     )
 
 private fun digitalMin() =
-    SykmeldingRecord(
-        metadata = Digital(orgnummer = "100000000"),
+    SykmeldingRecord.Digital(
+        metadata = MessageMetadata.Digital(orgnummer = "100000000"),
         validation = okValidationEmpty(),
         sykmelding =
-            DigitalSykmelding(
+            Sykmelding.Digital(
                 id = UUID.randomUUID().toString(),
                 metadata = digitalSykmeldingMetadata(),
                 pasient = pasientMin(),
@@ -134,7 +129,7 @@ private fun digitalMin() =
                 aktivitet = listOf(aktivitetIkkeMuligMin()),
                 behandler = behandlerMin(),
                 sykmelder = sykmelderMin(),
-                arbeidsgiver = IngenArbeidsgiver(),
+                arbeidsgiver = ArbeidsgiverInfo.Ingen(),
                 tilbakedatering = null,
                 bistandNav = null,
                 utdypendeSporsmal = null,
@@ -142,23 +137,23 @@ private fun digitalMin() =
     )
 
 private fun xmlEgenmeldtFull() =
-    SykmeldingRecord(
-        metadata = Egenmeldt(msgInfo = msgInfoFull()),
+    SykmeldingRecord.Xml(
+        metadata = MessageMetadata.Xml.Egenmeldt(msgInfo = msgInfoFull()),
         validation = fullValidation(),
         sykmelding = xmlSykmeldingFull(),
     )
 
 private fun xmlEgenmeldtMin() =
-    SykmeldingRecord(
-        metadata = Egenmeldt(msgInfo = msgInfoMin()),
+    SykmeldingRecord.Xml(
+        metadata = MessageMetadata.Xml.Egenmeldt(msgInfo = msgInfoMin()),
         validation = okValidationEmpty(),
         sykmelding = xmlSykmeldingMin("22222222-0000-0000-0000-000000000002"),
     )
 
 private fun xmlEmottakEdiFull() =
-    SykmeldingRecord(
+    SykmeldingRecord.Xml(
         metadata =
-            EDIEmottak(
+            MessageMetadata.Xml.Emottak.EDI(
                 mottakenhetBlokk = mottakenhetBlokkFull(),
                 ack = Ack(AckType.JA),
                 msgInfo = msgInfoFull(),
@@ -172,9 +167,9 @@ private fun xmlEmottakEdiFull() =
     )
 
 private fun xmlEmottakEdiMin() =
-    SykmeldingRecord(
+    SykmeldingRecord.Xml(
         metadata =
-            EDIEmottak(
+            MessageMetadata.Xml.Emottak.EDI(
                 mottakenhetBlokk = mottakenhetBlokkMin(),
                 ack = Ack(AckType.IKKE_OPPGITT),
                 msgInfo = msgInfoMin(),
@@ -188,9 +183,9 @@ private fun xmlEmottakEdiMin() =
     )
 
 private fun xmlEmottakLegacyFull() =
-    SykmeldingRecord(
+    SykmeldingRecord.Xml(
         metadata =
-            EmottakEnkel(
+            MessageMetadata.Xml.Emottak.Legacy(
                 msgInfo = msgInfoFull(),
                 sender = organisasjonFull("Sender Org"),
                 receiver = organisasjonFull("Receiver Org"),
@@ -201,9 +196,9 @@ private fun xmlEmottakLegacyFull() =
     )
 
 private fun xmlEmottakLegacyMin() =
-    SykmeldingRecord(
+    SykmeldingRecord.Xml(
         metadata =
-            EmottakEnkel(
+            MessageMetadata.Xml.Emottak.Legacy(
                 msgInfo = msgInfoMin(),
                 sender = organisasjonMin("Sender Org"),
                 receiver = organisasjonMin("Receiver Org"),
@@ -214,9 +209,9 @@ private fun xmlEmottakLegacyMin() =
     )
 
 private fun papirFull() =
-    SykmeldingRecord(
+    SykmeldingRecord.Papir(
         metadata =
-            Papir(
+            MessageMetadata.Papir(
                 msgInfo = msgInfoFull(),
                 sender = organisasjonFull("Sender Org"),
                 receiver = organisasjonFull("Receiver Org"),
@@ -224,14 +219,14 @@ private fun papirFull() =
             ),
         validation = fullValidation(),
         sykmelding =
-            Papirsykmelding(
+            Sykmelding.Papir(
                 id = "55555555-5555-5555-5555-555555555555",
                 metadata = sykmeldingMetadataFull(),
                 pasient = pasientFull(),
                 medisinskVurdering = legacyMedisinskVurderingFull(),
                 aktivitet = aktivitetVariety(),
                 arbeidsgiver =
-                    FlereArbeidsgivere(
+                    ArbeidsgiverInfo.Flere(
                         "navn",
                         "yrke",
                         20,
@@ -254,9 +249,9 @@ private fun papirFull() =
     )
 
 private fun papirMin() =
-    SykmeldingRecord(
+    SykmeldingRecord.Papir(
         metadata =
-            Papir(
+            MessageMetadata.Papir(
                 msgInfo = msgInfoMin(),
                 sender = organisasjonMin("Sender Org"),
                 receiver = organisasjonMin("Receiver Org"),
@@ -264,13 +259,13 @@ private fun papirMin() =
             ),
         validation = okValidationEmpty(),
         sykmelding =
-            Papirsykmelding(
+            Sykmelding.Papir(
                 id = UUID.randomUUID().toString(),
                 metadata = sykmeldingMetadataMin(),
                 pasient = pasientMin(),
                 medisinskVurdering = legacyMedisinskVurderingMin(),
                 aktivitet = listOf(aktivitetIkkeMuligMin()),
-                arbeidsgiver = IngenArbeidsgiver(),
+                arbeidsgiver = ArbeidsgiverInfo.Ingen(),
                 behandler = behandlerMin(),
                 sykmelder = sykmelderMin(),
                 prognose = null,
@@ -290,11 +285,12 @@ private fun msgInfoFull(): MessageInfo =
     )
 
 private fun utenlandskFull() =
-    SykmeldingRecord(
-        metadata = Utenlandsk(land = "SE", journalPostId = "journal-utenlandsk-full"),
+    SykmeldingRecord.Utenlandsk(
+        metadata =
+            MessageMetadata.Utenlandsk(land = "SE", journalPostId = "journal-utenlandsk-full"),
         validation = fullValidation(),
         sykmelding =
-            UtenlandskSykmelding(
+            Sykmelding.Utenlandsk(
                 id = UUID.randomUUID().toString(),
                 metadata = sykmeldingMetadataFull(),
                 pasient = pasientFull(),
@@ -318,11 +314,12 @@ private fun msgInfoMin(): MessageInfo =
     )
 
 private fun utenlandskMin() =
-    SykmeldingRecord(
-        metadata = Utenlandsk(land = "DK", journalPostId = "journal-utenlandsk-min"),
+    SykmeldingRecord.Utenlandsk(
+        metadata =
+            MessageMetadata.Utenlandsk(land = "DK", journalPostId = "journal-utenlandsk-min"),
         validation = okValidationEmpty(),
         sykmelding =
-            UtenlandskSykmelding(
+            Sykmelding.Utenlandsk(
                 id = UUID.randomUUID().toString(),
                 metadata = sykmeldingMetadataMin(),
                 pasient = pasientMin(),
@@ -338,7 +335,7 @@ private fun utenlandskMin() =
     )
 
 private fun xmlSykmeldingFull() =
-    XmlSykmelding(
+    Sykmelding.Xml(
         id = UUID.randomUUID().toString(),
         metadata = sykmeldingMetadataFull(),
         pasient = pasientFull(),
@@ -357,13 +354,13 @@ private fun xmlSykmeldingFull() =
 private fun tiltak(): Tiltak = Tiltak(tiltakNav = "Tiltak Nav", andreTiltak = "Andre tiltak")
 
 private fun xmlSykmeldingMin(id: String) =
-    XmlSykmelding(
+    Sykmelding.Xml(
         id = UUID.randomUUID().toString(),
         metadata = sykmeldingMetadataMin(),
         pasient = pasientMin(),
         medisinskVurdering = legacyMedisinskVurderingMin(),
         aktivitet = listOf(aktivitetIkkeMuligMin()),
-        arbeidsgiver = IngenArbeidsgiver(),
+        arbeidsgiver = ArbeidsgiverInfo.Ingen(),
         behandler = behandlerMin(),
         sykmelder = sykmelderMin(),
         prognose = null,
@@ -375,7 +372,7 @@ private fun xmlSykmeldingMin(id: String) =
 
 private fun aktivitetVariety() =
     listOf(
-        AktivitetIkkeMulig(
+        Aktivitet.IkkeMulig(
             medisinskArsak =
                 MedisinskArsak(
                     beskrivelse = "Tilstand hindrer arbeid",
@@ -389,22 +386,27 @@ private fun aktivitetVariety() =
             fom = fom,
             tom = fom.plusDays(7),
         ),
-        Gradert(grad = 50, fom = fom.plusDays(8), tom = fom.plusDays(14), reisetilskudd = false),
-        Avventende(
+        Aktivitet.Gradert(
+            grad = 50,
+            fom = fom.plusDays(8),
+            tom = fom.plusDays(14),
+            reisetilskudd = false,
+        ),
+        Aktivitet.Avventende(
             innspillTilArbeidsgiver = "Snakk med leder",
             fom = fom.plusDays(15),
             tom = fom.plusDays(20),
         ),
-        Behandlingsdager(
+        Aktivitet.Behandlingsdager(
             antallBehandlingsdager = 3,
             fom = fom.plusDays(21),
             tom = fom.plusDays(23),
         ),
-        Reisetilskudd(fom = fom.plusDays(24), tom = tom),
+        Aktivitet.Reisetilskudd(fom = fom.plusDays(24), tom = tom),
     )
 
 private fun aktivitetIkkeMuligMin() =
-    AktivitetIkkeMulig(medisinskArsak = null, arbeidsrelatertArsak = null, fom = fom, tom = tom)
+    Aktivitet.IkkeMulig(medisinskArsak = null, arbeidsrelatertArsak = null, fom = fom, tom = tom)
 
 private fun pasientFull() =
     Pasient(
@@ -457,7 +459,7 @@ private fun sykmelderFull() =
 private fun sykmelderMin() = Sykmelder(emptyList(), HelsepersonellKategori.LEGE)
 
 private fun enArbeidsgiverFull() =
-    EnArbeidsgiver(
+    ArbeidsgiverInfo.En(
         navn = "ACME AS",
         yrkesbetegnelse = "Utvikler",
         stillingsprosent = 100,
@@ -466,7 +468,7 @@ private fun enArbeidsgiverFull() =
     )
 
 private fun sykmeldingMetadataFull() =
-    SykmeldingMetadata(
+    SykmeldingMeta.Legacy(
         mottattDato = mottattDato,
         genDate = genDate,
         avsenderSystem = AvsenderSystem("avsender-app", "2.5"),
@@ -476,7 +478,7 @@ private fun sykmeldingMetadataFull() =
     )
 
 private fun sykmeldingMetadataMin() =
-    SykmeldingMetadata(
+    SykmeldingMeta.Legacy(
         mottattDato = mottattDato,
         genDate = genDate,
         avsenderSystem = AvsenderSystem("min", "1"),
@@ -486,7 +488,7 @@ private fun sykmeldingMetadataMin() =
     )
 
 private fun legacyMedisinskVurderingFull() =
-    LegacyMedisinskVurdering(
+    MedisinskVurdering.Legacy(
         hovedDiagnose = DiagnoseInfo(DiagnoseSystem.ICPC2B, "R74.0001", "diagnose"),
         biDiagnoser = bidiagnoser(),
         svangerskap = false,
@@ -507,7 +509,7 @@ private fun bidiagnoser(): List<DiagnoseInfo> =
     )
 
 private fun legacyMedisinskVurderingMin() =
-    LegacyMedisinskVurdering(
+    MedisinskVurdering.Legacy(
         hovedDiagnose = null,
         biDiagnoser = emptyList(),
         svangerskap = false,
@@ -518,7 +520,7 @@ private fun legacyMedisinskVurderingMin() =
     )
 
 private fun digitalMedisinskVurderingMin() =
-    DigitalMedisinskVurdering(
+    MedisinskVurdering.Digital(
         hovedDiagnose = null,
         biDiagnoser = emptyList(),
         svangerskap = false,
@@ -532,7 +534,7 @@ private fun prognoseFull() =
         arbeidsforEtterPeriode = true,
         hensynArbeidsplassen = "hensyn",
         arbeid =
-            ErIArbeid(
+            IArbeid.ErIArbeid(
                 egetArbeidPaSikt = true,
                 annetArbeidPaSikt = false,
                 arbeidFOM = LocalDate.parse("2024-02-01"),
@@ -639,12 +641,12 @@ private fun fullValidation() =
         timestamp = validationTime,
         rules =
             listOf(
-                OKRule(
+                Rule.OK(
                     name = "RULE_OK_1",
                     timestamp = validationTime,
                     validationType = ValidationType.AUTOMATIC,
                 ),
-                PendingRule(
+                Rule.Pending(
                     name = "RULE_PENDING_1",
                     timestamp = validationTime,
                     validationType = ValidationType.MANUAL,
@@ -665,8 +667,8 @@ private fun tilbakedatering(): Tilbakedatering =
         begrunnelse = "Pasient kunne ikke møte tidligere",
     )
 
-private fun medisinskVurdering(): DigitalMedisinskVurdering =
-    DigitalMedisinskVurdering(
+private fun medisinskVurderingDigital(): MedisinskVurdering.Digital =
+    MedisinskVurdering.Digital(
         hovedDiagnose = hovedDiagnose(),
         biDiagnoser = bidiagnoser(),
         svangerskap = true,
@@ -675,8 +677,8 @@ private fun medisinskVurdering(): DigitalMedisinskVurdering =
         annenFravarsgrunn = AnnenFravarsgrunn.NODVENDIG_KONTROLLUNDENRSOKELSE,
     )
 
-private fun digitalSykmeldingMetadata(): DigitalSykmeldingMetadata =
-    DigitalSykmeldingMetadata(
+private fun digitalSykmeldingMetadata(): SykmeldingMeta.Digital =
+    SykmeldingMeta.Digital(
         mottattDato = mottattDato,
         genDate = genDate,
         avsenderSystem = AvsenderSystem("avsender-app", "2.5"),
