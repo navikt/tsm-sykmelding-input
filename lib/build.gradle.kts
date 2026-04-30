@@ -87,7 +87,7 @@ tasks.named("sourcesJar") { dependsOn("generateVersionFile") }
 tasks.register<JavaExec>("generateKafkaJsonFiles") {
     description = "Generate kafka-format JSON files into src/test/resources/format/v<version>/."
     classpath = sourceSets["test"].runtimeClasspath
-    mainClass.set("no.nav.tsm.sykmelding.input.core.model.GenerateKafkaJsonFilesKt")
+    mainClass.set("no.nav.tsm.sykmelding.input.core.model.formatvalidation.GenerateKafkaJsonFilesKt")
     workingDir = rootDir
     systemProperty("version", file("version").readText().trim())
 }

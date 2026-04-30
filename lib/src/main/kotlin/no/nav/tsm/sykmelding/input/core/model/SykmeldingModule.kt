@@ -41,8 +41,24 @@ class SykmeldingRecordDeserializer : JsonDeserializer<SykmeldingRecord>() {
                 ?: throw IllegalArgumentException(
                     "Missing sykmelding.type in SykmeldingRecord JSON"
                 )
+        val metadataType =
+            node.get("metadata")?.get("type")?.asText()
+                ?: throw IllegalArgumentException("Missing metadata.type in SykmeldingRecord JSON")
+        val parsedSykmeldingType = SykmeldingType.valueOf(sykmeldingType)
+        val parsedMetadataType = MetadataType.valueOf(metadataType)
+        val allowedMetadataTypes =
+            when (parsedSykmeldingType) {
+                SykmeldingType.DIGITAL -> setOf(MetadataType.DIGITAL)
+                SykmeldingType.XML ->
+                    setOf(MetadataType.ENKEL, MetadataType.EMOTTAK, MetadataType.EGENMELDT)
+                SykmeldingType.PAPIR -> setOf(MetadataType.PAPIRSYKMELDING)
+                SykmeldingType.UTENLANDSK -> setOf(MetadataType.UTENLANDSK_SYKMELDING)
+            }
+        require(parsedMetadataType in allowedMetadataTypes) {
+            "Mismatched metadata.type=$parsedMetadataType for sykmelding.type=$parsedSykmeldingType (expected one of $allowedMetadataTypes)"
+        }
         val clazz: KClass<out SykmeldingRecord> =
-            when (SykmeldingType.valueOf(sykmeldingType)) {
+            when (parsedSykmeldingType) {
                 SykmeldingType.DIGITAL -> SykmeldingRecord.Digital::class
                 SykmeldingType.XML -> SykmeldingRecord.Xml::class
                 SykmeldingType.PAPIR -> SykmeldingRecord.Papir::class
