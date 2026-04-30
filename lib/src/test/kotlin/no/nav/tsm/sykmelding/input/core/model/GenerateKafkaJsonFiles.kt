@@ -82,7 +82,8 @@ private fun digitalFull() =
                 aktivitet = aktivitetVariety(),
                 behandler = behandlerFull(),
                 sykmelder = sykmelderFull(),
-                arbeidsgiver = ArbeidsgiverInfo.Flere(
+                arbeidsgiver =
+                    ArbeidsgiverInfo.Flere(
                         "navn",
                         "yrke",
                         20,
@@ -224,7 +225,8 @@ private fun papirFull() =
                 pasient = pasientFull(),
                 medisinskVurdering = legacyMedisinskVurderingFull(),
                 aktivitet = aktivitetVariety(),
-                arbeidsgiver = ArbeidsgiverInfo.Flere(
+                arbeidsgiver =
+                    ArbeidsgiverInfo.Flere(
                         "navn",
                         "yrke",
                         20,
@@ -284,7 +286,8 @@ private fun msgInfoFull(): MessageInfo =
 
 private fun utenlandskFull() =
     SykmeldingRecord.Utenlandsk(
-        metadata = MessageMetadata.Utenlandsk(land = "SE", journalPostId = "journal-utenlandsk-full"),
+        metadata =
+            MessageMetadata.Utenlandsk(land = "SE", journalPostId = "journal-utenlandsk-full"),
         validation = fullValidation(),
         sykmelding =
             Sykmelding.Utenlandsk(
@@ -312,7 +315,8 @@ private fun msgInfoMin(): MessageInfo =
 
 private fun utenlandskMin() =
     SykmeldingRecord.Utenlandsk(
-        metadata = MessageMetadata.Utenlandsk(land = "DK", journalPostId = "journal-utenlandsk-min"),
+        metadata =
+            MessageMetadata.Utenlandsk(land = "DK", journalPostId = "journal-utenlandsk-min"),
         validation = okValidationEmpty(),
         sykmelding =
             Sykmelding.Utenlandsk(
@@ -382,7 +386,12 @@ private fun aktivitetVariety() =
             fom = fom,
             tom = fom.plusDays(7),
         ),
-        Aktivitet.Gradert(grad = 50, fom = fom.plusDays(8), tom = fom.plusDays(14), reisetilskudd = false),
+        Aktivitet.Gradert(
+            grad = 50,
+            fom = fom.plusDays(8),
+            tom = fom.plusDays(14),
+            reisetilskudd = false,
+        ),
         Aktivitet.Avventende(
             innspillTilArbeidsgiver = "Snakk med leder",
             fom = fom.plusDays(15),
