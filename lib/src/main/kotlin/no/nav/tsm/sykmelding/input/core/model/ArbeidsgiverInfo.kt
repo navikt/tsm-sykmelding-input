@@ -10,36 +10,36 @@ enum class ARBEIDSGIVER_TYPE {
 
 sealed interface ArbeidsgiverInfo {
     val type: ARBEIDSGIVER_TYPE
-}
 
-data class EnArbeidsgiver(
-    val navn: String?,
-    val yrkesbetegnelse: String?,
-    val stillingsprosent: Int?,
-    val meldingTilArbeidsgiver: String?,
-    val tiltakArbeidsplassen: String?,
-) : ArbeidsgiverInfo {
-    override val type: ARBEIDSGIVER_TYPE = ARBEIDSGIVER_TYPE.EN_ARBEIDSGIVER
-}
+    data class En(
+        val navn: String?,
+        val yrkesbetegnelse: String?,
+        val stillingsprosent: Int?,
+        val meldingTilArbeidsgiver: String?,
+        val tiltakArbeidsplassen: String?,
+    ) : ArbeidsgiverInfo {
+        override val type: ARBEIDSGIVER_TYPE = ARBEIDSGIVER_TYPE.EN_ARBEIDSGIVER
+    }
 
-data class FlereArbeidsgivere(
-    val navn: String?,
-    val yrkesbetegnelse: String?,
-    val stillingsprosent: Int?,
-    val meldingTilArbeidsgiver: String?,
-    val tiltakArbeidsplassen: String?,
-) : ArbeidsgiverInfo {
-    override val type: ARBEIDSGIVER_TYPE = ARBEIDSGIVER_TYPE.FLERE_ARBEIDSGIVERE
-}
+    data class Flere(
+        val navn: String?,
+        val yrkesbetegnelse: String?,
+        val stillingsprosent: Int?,
+        val meldingTilArbeidsgiver: String?,
+        val tiltakArbeidsplassen: String?,
+    ) : ArbeidsgiverInfo {
+        override val type: ARBEIDSGIVER_TYPE = ARBEIDSGIVER_TYPE.FLERE_ARBEIDSGIVERE
+    }
 
-class IngenArbeidsgiver() : ArbeidsgiverInfo {
-    override val type: ARBEIDSGIVER_TYPE = ARBEIDSGIVER_TYPE.INGEN_ARBEIDSGIVER
+    class Ingen() : ArbeidsgiverInfo {
+        override val type: ARBEIDSGIVER_TYPE = ARBEIDSGIVER_TYPE.INGEN_ARBEIDSGIVER
 
-    override fun equals(other: Any?) = other is IngenArbeidsgiver
+        override fun equals(other: Any?) = other is Ingen
 
-    override fun hashCode() = type.hashCode()
+        override fun hashCode() = type.hashCode()
 
-    override fun toString() = "IngenArbeidsgiver(type=$type)"
+        override fun toString() = "Ingen(type=$type)"
+    }
 }
 
 enum class IArbeidType {
@@ -50,21 +50,21 @@ enum class IArbeidType {
 sealed interface IArbeid {
     val type: IArbeidType
     val vurderingsdato: LocalDate?
-}
 
-data class ErIArbeid(
-    val egetArbeidPaSikt: Boolean,
-    val annetArbeidPaSikt: Boolean,
-    val arbeidFOM: LocalDate?,
-    override val vurderingsdato: LocalDate?,
-) : IArbeid {
-    override val type = IArbeidType.ER_I_ARBEID
-}
+    data class ErIArbeid(
+        val egetArbeidPaSikt: Boolean,
+        val annetArbeidPaSikt: Boolean,
+        val arbeidFOM: LocalDate?,
+        override val vurderingsdato: LocalDate?,
+    ) : IArbeid {
+        override val type = IArbeidType.ER_I_ARBEID
+    }
 
-data class ErIkkeIArbeid(
-    val arbeidsforPaSikt: Boolean,
-    val arbeidsforFOM: LocalDate?,
-    override val vurderingsdato: LocalDate?,
-) : IArbeid {
-    override val type = IArbeidType.ER_IKKE_I_ARBEID
+    data class ErIkkeIArbeid(
+        val arbeidsforPaSikt: Boolean,
+        val arbeidsforFOM: LocalDate?,
+        override val vurderingsdato: LocalDate?,
+    ) : IArbeid {
+        override val type = IArbeidType.ER_IKKE_I_ARBEID
+    }
 }
