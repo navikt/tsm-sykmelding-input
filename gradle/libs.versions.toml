@@ -5,7 +5,7 @@
 junit-jupiter-engine = "5.11.3"
 slf4j = "1.7.25"
 prometheus = "0.16.0"
-jackson-version = "2.18.3"
+jackson-version = "2.22.1"
 kafka-clients-version = "4.0.0"
 [libraries]
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
