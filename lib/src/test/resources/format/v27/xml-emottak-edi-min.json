@@ -1,0 +1,116 @@
+{
+  "metadata" : {
+    "mottakenhetBlokk" : {
+      "ediLogid" : "edi-log-min",
+      "avsender" : "avsender-min",
+      "ebXMLSamtaleId" : "samtale-min",
+      "mottaksId" : null,
+      "meldingsType" : "SYKMELD",
+      "avsenderRef" : "ref-min",
+      "avsenderFnrFraDigSignatur" : null,
+      "mottattDato" : "2024-01-15T10:00:00Z",
+      "orgnummer" : null,
+      "avsenderOrgNrFraDigSignatur" : null,
+      "partnerReferanse" : "partner-min",
+      "herIdentifikator" : "her-min",
+      "ebRole" : "Sykmelder",
+      "ebService" : "Sykmelding",
+      "ebAction" : "Send"
+    },
+    "ack" : {
+      "ackType" : "IKKE_OPPGITT"
+    },
+    "msgInfo" : {
+      "type" : "SYKMELDING",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "msgId" : "msg-id",
+      "migVersjon" : null
+    },
+    "sender" : {
+      "navn" : "Sender Org",
+      "type" : "IKKE_OPPGITT",
+      "ids" : [ ],
+      "adresse" : null,
+      "kontaktinfo" : [ ],
+      "underOrganisasjon" : null,
+      "helsepersonell" : null
+    },
+    "receiver" : {
+      "navn" : "Receiver Org",
+      "type" : "IKKE_OPPGITT",
+      "ids" : [ ],
+      "adresse" : null,
+      "kontaktinfo" : [ ],
+      "underOrganisasjon" : null,
+      "helsepersonell" : null
+    },
+    "pasient" : null,
+    "vedlegg" : null,
+    "type" : "EMOTTAK"
+  },
+  "sykmelding" : {
+    "id" : "f9817e88-5fc7-4528-9ce1-da4724ef5bf2",
+    "metadata" : {
+      "mottattDato" : "2024-01-15T10:00:00Z",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "avsenderSystem" : {
+        "navn" : "min",
+        "versjon" : "1"
+      },
+      "behandletTidspunkt" : "2024-01-15T09:30:00Z",
+      "regelsettVersjon" : null,
+      "strekkode" : null
+    },
+    "pasient" : {
+      "navn" : null,
+      "navKontor" : null,
+      "navnFastlege" : null,
+      "fnr" : "12345678901",
+      "kontaktinfo" : [ ]
+    },
+    "medisinskVurdering" : {
+      "hovedDiagnose" : null,
+      "biDiagnoser" : [ ],
+      "svangerskap" : false,
+      "yrkesskade" : null,
+      "skjermetForPasient" : false,
+      "syketilfelletStartDato" : null,
+      "annenFraversArsak" : null
+    },
+    "aktivitet" : [ {
+      "medisinskArsak" : null,
+      "arbeidsrelatertArsak" : null,
+      "fom" : "2024-01-15",
+      "tom" : "2024-01-29",
+      "type" : "AKTIVITET_IKKE_MULIG"
+    } ],
+    "arbeidsgiver" : {
+      "type" : "INGEN_ARBEIDSGIVER"
+    },
+    "behandler" : {
+      "navn" : {
+        "fornavn" : "fornavn",
+        "mellomnavn" : null,
+        "etternavn" : "etternavn"
+      },
+      "adresse" : null,
+      "ids" : [ ],
+      "kontaktinfo" : [ ]
+    },
+    "sykmelder" : {
+      "ids" : [ ],
+      "helsepersonellKategori" : "LEGE"
+    },
+    "prognose" : null,
+    "tiltak" : null,
+    "bistandNav" : null,
+    "tilbakedatering" : null,
+    "utdypendeOpplysninger" : null,
+    "type" : "XML"
+  },
+  "validation" : {
+    "status" : "OK",
+    "timestamp" : "2024-01-15T10:01:00Z",
+    "rules" : [ ]
+  }
+}
