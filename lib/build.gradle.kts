@@ -19,7 +19,6 @@ dependencies {
     api(libs.prometheus)
     api(libs.jackson.module.kotlin)
     api(libs.jackson.datatype.jsr310)
-    api(libs.kafka.clients)
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
