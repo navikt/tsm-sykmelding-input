@@ -1,5 +1,6 @@
 package no.nav.tsm.sykmelding.input.core.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
 enum class ARBEIDSGIVER_TYPE {
@@ -9,7 +10,7 @@ enum class ARBEIDSGIVER_TYPE {
 }
 
 sealed interface ArbeidsgiverInfo {
-    val type: ARBEIDSGIVER_TYPE
+    @get:JsonProperty(access = JsonProperty.Access.READ_ONLY) val type: ARBEIDSGIVER_TYPE
 
     data class En(
         val navn: String?,
@@ -48,7 +49,7 @@ enum class IArbeidType {
 }
 
 sealed interface IArbeid {
-    val type: IArbeidType
+    @get:JsonProperty(access = JsonProperty.Access.READ_ONLY) val type: IArbeidType
     val vurderingsdato: LocalDate?
 
     data class ErIArbeid(

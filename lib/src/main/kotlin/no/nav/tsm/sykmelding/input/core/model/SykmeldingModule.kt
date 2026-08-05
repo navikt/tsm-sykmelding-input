@@ -1,13 +1,12 @@
 package no.nav.tsm.sykmelding.input.core.model
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.databind.node.ObjectNode
 import kotlin.reflect.KClass
 import no.nav.tsm.sykmelding.input.core.model.metadata.MessageMetadata
 import no.nav.tsm.sykmelding.input.core.model.metadata.MetadataType
+import tools.jackson.core.JsonParser
+import tools.jackson.databind.DeserializationContext
+import tools.jackson.databind.ValueDeserializer
+import tools.jackson.databind.module.SimpleModule
 
 class SykmeldingModule : SimpleModule() {
     init {
@@ -22,27 +21,27 @@ class SykmeldingModule : SimpleModule() {
     }
 }
 
-abstract class CustomDeserializer<T : Any> : JsonDeserializer<T>() {
+abstract class CustomDeserializer<T : Any> : ValueDeserializer<T>() {
     abstract fun getClass(type: String): KClass<out T>
 
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): T {
-        val node: ObjectNode = p.codec.readTree(p)
-        val type = node.get("type").asText()
+        val json = ctxt.readTree(p)
+        val type = json.get("type").asString()
         val clazz = getClass(type)
-        return p.codec.treeToValue(node, clazz.java)
+        return ctxt.readTreeAsValue(json, clazz.java)
     }
 }
 
-class SykmeldingRecordDeserializer : JsonDeserializer<SykmeldingRecord>() {
+class SykmeldingRecordDeserializer : ValueDeserializer<SykmeldingRecord>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): SykmeldingRecord {
-        val node: ObjectNode = p.codec.readTree(p)
+        val json = ctxt.readTree(p)
         val sykmeldingType =
-            node.get("sykmelding")?.get("type")?.asText()
+            json.get("sykmelding")?.get("type")?.asString()
                 ?: throw IllegalArgumentException(
                     "Missing sykmelding.type in SykmeldingRecord JSON"
                 )
         val metadataType =
-            node.get("metadata")?.get("type")?.asText()
+            json.get("metadata")?.get("type")?.asString()
                 ?: throw IllegalArgumentException("Missing metadata.type in SykmeldingRecord JSON")
         val parsedSykmeldingType = SykmeldingType.valueOf(sykmeldingType)
         val parsedMetadataType = MetadataType.valueOf(metadataType)
@@ -64,7 +63,7 @@ class SykmeldingRecordDeserializer : JsonDeserializer<SykmeldingRecord>() {
                 SykmeldingType.PAPIR -> SykmeldingRecord.Papir::class
                 SykmeldingType.UTENLANDSK -> SykmeldingRecord.Utenlandsk::class
             }
-        return p.codec.treeToValue(node, clazz.java)
+        return ctxt.readTreeAsValue(json, clazz.java)
     }
 }
 

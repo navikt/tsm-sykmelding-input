@@ -1,10 +1,10 @@
 package no.nav.tsm.sykmelding.input.core.model.formatvalidation
 
-import com.fasterxml.jackson.databind.SerializationFeature
 import java.nio.file.Files
 import java.nio.file.Path
 import no.nav.tsm.sykmelding.input.core.model.kafkaJsonSamples
 import no.nav.tsm.sykmelding.input.core.model.sykmeldingObjectMapper
+import tools.jackson.databind.SerializationFeature
 
 fun main() {
     val version =
@@ -16,7 +16,7 @@ fun main() {
     Files.createDirectories(outputDir)
     println("Writing json file (version=$version) to: $outputDir")
 
-    val mapper = sykmeldingObjectMapper.copy().enable(SerializationFeature.INDENT_OUTPUT)
+    val mapper = sykmeldingObjectMapper.rebuild().enable(SerializationFeature.INDENT_OUTPUT).build()
 
     kafkaJsonSamples().forEach { (name, record) ->
         val path = outputDir.resolve(name)

@@ -1,5 +1,6 @@
 package no.nav.tsm.sykmelding.input.core.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import no.nav.tsm.sykmelding.input.core.model.metadata.Adresse
@@ -64,7 +65,7 @@ enum class SykmeldingType {
 }
 
 sealed interface Sykmelding {
-    val type: SykmeldingType
+    @get:JsonProperty(access = JsonProperty.Access.READ_ONLY) val type: SykmeldingType
     val id: String
     val metadata: SykmeldingMeta
     val pasient: Pasient
