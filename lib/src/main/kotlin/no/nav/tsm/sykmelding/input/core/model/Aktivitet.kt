@@ -1,5 +1,6 @@
 package no.nav.tsm.sykmelding.input.core.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
 enum class Aktivitetstype {
@@ -13,7 +14,7 @@ enum class Aktivitetstype {
 sealed interface Aktivitet {
     val fom: LocalDate
     val tom: LocalDate
-    val type: Aktivitetstype
+    @get:JsonProperty(access = JsonProperty.Access.READ_ONLY) val type: Aktivitetstype
 
     data class Behandlingsdager(
         val antallBehandlingsdager: Int,

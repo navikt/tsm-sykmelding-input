@@ -1,14 +1,14 @@
 package no.nav.tsm.sykmelding.input.core.model
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import tools.jackson.databind.DeserializationFeature
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.KotlinFeature
+import tools.jackson.module.kotlin.KotlinModule
+
+private val kotlinModule = KotlinModule.Builder().enable(KotlinFeature.StrictNullChecks).build()
 
 val sykmeldingObjectMapper =
-    jacksonObjectMapper().apply {
-        registerModule(SykmeldingModule())
-        registerModule(JavaTimeModule())
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
-        configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-    }
+    JsonMapper.builder()
+        .addModules(kotlinModule, SykmeldingModule())
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
+        .build()

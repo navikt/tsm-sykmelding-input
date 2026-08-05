@@ -1,5 +1,6 @@
 package no.nav.tsm.sykmelding.input.core.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.OffsetDateTime
 
 enum class TilbakedatertMerknad {
@@ -30,7 +31,7 @@ enum class ValidationType {
 }
 
 sealed interface Rule {
-    val type: RuleType
+    @get:JsonProperty(access = JsonProperty.Access.READ_ONLY) val type: RuleType
     val name: String
     val validationType: ValidationType
     val timestamp: OffsetDateTime

@@ -1,5 +1,6 @@
 package no.nav.tsm.sykmelding.input.core.model.metadata
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.OffsetDateTime
 import org.slf4j.LoggerFactory
 
@@ -15,7 +16,7 @@ enum class MetadataType {
 }
 
 sealed interface MessageMetadata {
-    val type: MetadataType
+    @get:JsonProperty(access = JsonProperty.Access.READ_ONLY) val type: MetadataType
 
     data class Digital(val orgnummer: String) : MessageMetadata {
         override val type: MetadataType = MetadataType.DIGITAL
