@@ -85,6 +85,7 @@ class SykmeldingObjectMapperTest {
                         tilbakedatering = null,
                         bistandNav = null,
                         utdypendeSporsmal = null,
+                        prognose = null,
                     ),
             )
 
@@ -187,6 +188,7 @@ class SykmeldingObjectMapperTest {
                         tilbakedatering = null,
                         bistandNav = null,
                         utdypendeSporsmal = null,
+                        prognose = null,
                     ),
             )
 

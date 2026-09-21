@@ -109,6 +109,7 @@ sealed interface Sykmelding {
         override val tilbakedatering: Tilbakedatering?,
         override val bistandNav: BistandNav?,
         val utdypendeSporsmal: List<UtdypendeSporsmal>?,
+        val prognose: DigitalPrognose?,
     ) : Nasjonal {
         override val type = SykmeldingType.DIGITAL
     }
@@ -182,6 +183,8 @@ data class Prognose(
     val hensynArbeidsplassen: String?,
     val arbeid: IArbeid?,
 )
+
+data class DigitalPrognose(val friskmeldingTilArbeidsformidling: Boolean)
 
 data class Tilbakedatering(val kontaktDato: LocalDate?, val begrunnelse: String?)
 

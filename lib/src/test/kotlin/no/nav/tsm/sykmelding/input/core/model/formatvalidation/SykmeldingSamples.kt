@@ -71,6 +71,7 @@ internal fun digitalFull() =
                             sporsmal = "Hva er utfordringene?",
                         ),
                     ),
+                prognose = DigitalPrognose(friskmeldingTilArbeidsformidling = true),
             ),
     )
 
@@ -91,6 +92,7 @@ internal fun digitalMin() =
                 tilbakedatering = null,
                 bistandNav = null,
                 utdypendeSporsmal = null,
+                prognose = null,
             ),
     )
 
