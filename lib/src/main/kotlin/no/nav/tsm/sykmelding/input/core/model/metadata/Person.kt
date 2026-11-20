@@ -15,6 +15,7 @@ enum class PersonIdType {
     FPN,
     XXX,
     DUF,
+    FHN,
     IKKE_OPPGITT,
     UGYLDIG,
 }
