@@ -1,0 +1,76 @@
+{
+  "metadata" : {
+    "msgInfo" : {
+      "type" : "SYKMELDING",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "msgId" : "msg-id",
+      "migVersjon" : null
+    },
+    "type" : "EGENMELDT"
+  },
+  "sykmelding" : {
+    "id" : "1b885199-0f27-4ef1-959c-624ada3ac5c6",
+    "metadata" : {
+      "mottattDato" : "2024-01-15T10:00:00Z",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "avsenderSystem" : {
+        "navn" : "min",
+        "versjon" : "1"
+      },
+      "behandletTidspunkt" : "2024-01-15T09:30:00Z",
+      "regelsettVersjon" : null,
+      "strekkode" : null
+    },
+    "pasient" : {
+      "navn" : null,
+      "navKontor" : null,
+      "navnFastlege" : null,
+      "fnr" : "12345678901",
+      "kontaktinfo" : [ ]
+    },
+    "medisinskVurdering" : {
+      "hovedDiagnose" : null,
+      "biDiagnoser" : [ ],
+      "svangerskap" : false,
+      "yrkesskade" : null,
+      "skjermetForPasient" : false,
+      "syketilfelletStartDato" : null,
+      "annenFraversArsak" : null
+    },
+    "aktivitet" : [ {
+      "medisinskArsak" : null,
+      "arbeidsrelatertArsak" : null,
+      "fom" : "2024-01-15",
+      "tom" : "2024-01-29",
+      "type" : "AKTIVITET_IKKE_MULIG"
+    } ],
+    "arbeidsgiver" : {
+      "type" : "INGEN_ARBEIDSGIVER"
+    },
+    "behandler" : {
+      "navn" : {
+        "fornavn" : "fornavn",
+        "mellomnavn" : null,
+        "etternavn" : "etternavn"
+      },
+      "adresse" : null,
+      "ids" : [ ],
+      "kontaktinfo" : [ ]
+    },
+    "sykmelder" : {
+      "ids" : [ ],
+      "helsepersonellKategori" : "LEGE"
+    },
+    "prognose" : null,
+    "tiltak" : null,
+    "bistandNav" : null,
+    "tilbakedatering" : null,
+    "utdypendeOpplysninger" : null,
+    "type" : "XML"
+  },
+  "validation" : {
+    "status" : "OK",
+    "timestamp" : "2024-01-15T10:01:00Z",
+    "rules" : [ ]
+  }
+}
