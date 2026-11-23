@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
     testImplementation(libs.junit.jupiter.engine)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -22,7 +22,7 @@ dependencies {
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
-    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+    toolchain { languageVersion = JavaLanguageVersion.of(libs.versions.jvmVersion.get().toInt()) }
     withSourcesJar()
 }
 
@@ -32,6 +32,7 @@ tasks.withType<Jar>().configureEach {
 
 val generateVersionFile =
     tasks.register("generateVersionFile") {
+        description = "generate version file"
         val version = file("version").readText().trim()
         val outputDir = layout.buildDirectory.dir("generated/sykmelding/input")
         outputs.dir(outputDir)
@@ -76,7 +77,7 @@ publishing {
     }
 }
 
-spotless { kotlin { ktfmt("0.54").kotlinlangStyle() } }
+spotless { kotlin { ktfmt(libs.versions.ktfmt.get()).kotlinlangStyle() } }
 
 tasks.named<Test>("test") { useJUnitPlatform() }
 
