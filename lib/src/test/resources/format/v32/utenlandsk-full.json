@@ -1,0 +1,122 @@
+{
+  "metadata" : {
+    "land" : "SE",
+    "journalPostId" : "journal-utenlandsk-full",
+    "type" : "UTENLANDSK_SYKMELDING"
+  },
+  "sykmelding" : {
+    "id" : "7f48ccda-5dfb-489f-92b7-09174232c96d",
+    "metadata" : {
+      "mottattDato" : "2024-01-15T10:00:00Z",
+      "genDate" : "2024-01-15T09:00:00Z",
+      "avsenderSystem" : {
+        "navn" : "avsender-app",
+        "versjon" : "2.5"
+      },
+      "behandletTidspunkt" : "2024-01-15T09:30:00Z",
+      "regelsettVersjon" : "1234",
+      "strekkode" : "1234567890"
+    },
+    "pasient" : {
+      "navn" : {
+        "fornavn" : "Ola",
+        "mellomnavn" : "Mellom",
+        "etternavn" : "Nordmann"
+      },
+      "navKontor" : "NAV Oslo",
+      "navnFastlege" : "Dr. Hansen",
+      "fnr" : "12345678901",
+      "kontaktinfo" : [ {
+        "type" : "MOBILTELEFON",
+        "value" : "+4799999999"
+      }, {
+        "type" : "HOVEDTELEFON",
+        "value" : "+4722222222"
+      } ]
+    },
+    "medisinskVurdering" : {
+      "hovedDiagnose" : {
+        "system" : "ICPC2B",
+        "kode" : "R74.0001",
+        "tekst" : "diagnose"
+      },
+      "biDiagnoser" : [ {
+        "system" : "ICD10",
+        "kode" : "J06.9",
+        "tekst" : "URI"
+      }, {
+        "system" : "ICPC2",
+        "kode" : "L84",
+        "tekst" : "Rygglidelse"
+      } ],
+      "svangerskap" : false,
+      "yrkesskade" : {
+        "yrkesskadeDato" : "2023-08-01"
+      },
+      "skjermetForPasient" : false,
+      "syketilfelletStartDato" : "2024-01-10",
+      "annenFraversArsak" : {
+        "beskrivelse" : "Beskrivelse av fravær",
+        "arsak" : [ "MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND" ]
+      }
+    },
+    "aktivitet" : [ {
+      "medisinskArsak" : {
+        "beskrivelse" : "Tilstand hindrer arbeid",
+        "arsak" : [ "TILSTAND_HINDRER_AKTIVITET" ]
+      },
+      "arbeidsrelatertArsak" : {
+        "beskrivelse" : "Manglende tilrettelegging",
+        "arsak" : [ "MANGLENDE_TILRETTELEGGING" ]
+      },
+      "fom" : "2024-01-15",
+      "tom" : "2024-01-22",
+      "type" : "AKTIVITET_IKKE_MULIG"
+    }, {
+      "grad" : 50,
+      "fom" : "2024-01-23",
+      "tom" : "2024-01-29",
+      "reisetilskudd" : false,
+      "type" : "GRADERT"
+    }, {
+      "innspillTilArbeidsgiver" : "Snakk med leder",
+      "fom" : "2024-01-30",
+      "tom" : "2024-02-04",
+      "type" : "AVVENTENDE"
+    }, {
+      "antallBehandlingsdager" : 3,
+      "fom" : "2024-02-05",
+      "tom" : "2024-02-07",
+      "type" : "BEHANDLINGSDAGER"
+    }, {
+      "fom" : "2024-02-08",
+      "tom" : "2024-01-29",
+      "type" : "REISETILSKUDD"
+    } ],
+    "utenlandskInfo" : {
+      "land" : "SE",
+      "folkeRegistertAdresseErBrakkeEllerTilsvarende" : true,
+      "erAdresseUtland" : true
+    },
+    "type" : "UTENLANDSK"
+  },
+  "validation" : {
+    "status" : "OK",
+    "timestamp" : "2024-01-15T10:01:00Z",
+    "rules" : [ {
+      "name" : "RULE_OK_1",
+      "timestamp" : "2024-01-15T10:01:00Z",
+      "validationType" : "AUTOMATIC",
+      "type" : "OK"
+    }, {
+      "name" : "RULE_PENDING_1",
+      "timestamp" : "2024-01-15T10:01:00Z",
+      "validationType" : "MANUAL",
+      "reason" : {
+        "sykmeldt" : "Avventer",
+        "sykmelder" : "Avventer behandler"
+      },
+      "type" : "PENDING"
+    } ]
+  }
+}
