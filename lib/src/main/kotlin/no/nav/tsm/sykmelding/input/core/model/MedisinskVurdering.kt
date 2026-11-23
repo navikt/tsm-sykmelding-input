@@ -43,10 +43,7 @@ data class AnnenFraverArsak(val beskrivelse: String?, val arsak: List<AnnenFrava
 
 data class MedisinskArsak(val beskrivelse: String?, val arsak: List<MedisinskArsakType>)
 
-data class ArbeidsrelatertArsak(
-    val beskrivelse: String?,
-    val arsak: List<ArbeidsrelatertArsakType>,
-)
+data class ArbeidsrelatertArsak(val beskrivelse: String?, val arsak: List<ArbeidsrelatertArsakType>)
 
 data class Yrkesskade(val yrkesskadeDato: LocalDate?)
 
